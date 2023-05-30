@@ -14,10 +14,9 @@ WHERE `cfu` > 10;
 
 
 3. Selezionare tutti gli studenti che hanno più di 30 anni
-SELECT COUNT(*) AS `num_students`, YEAR(`date_of_birth`) AS `old_students`
+SELECT *
 FROM `students`
-WHERE YEAR(`date_of_birth`) < 1993
-GROUP BY `old_students`;
+WHERE TIMESTAMPDIFF(YEAR, `date_of_birth`, CURDATE()) > 30;
 
 
 4. Selezionare tutti i corsi del primo semestre del primo anno di un qualsiasi corso di
@@ -32,8 +31,8 @@ AND `period` = 'I semestre';
 20/06/2020 
 SELECT COUNT(*) 
 FROM `exams`
-WHERE `date` = '2020-06-20'
-AND `hour`>='14:00:00';
+WHERE `date` = '2020-06-20'     
+AND `hour`>='14:00:00';     HOUR(`hour`)
 
 
 6. Selezionare tutti i corsi di laurea magistrale 
@@ -50,3 +49,27 @@ SELECT COUNT(*)
 FROM `teachers`
 WHERE `phone` IS NULL;
 
+
+
+BONUS
+
+
+1. Contare quanti iscritti ci sono stati ogni anno
+
+
+2. Contare gli insegnanti che hanno l'ufficio nello stesso edificio
+SELECT COUNT(*) AS `num_teachers`, `office_address`
+from `teachers`
+GROUP BY `office_address`
+ORDER BY `num_teachers`, `office_address`
+
+
+3. Calcolare la media dei voti di ogni appello d'esame
+SELECT AVG(`vote`)
+FROM `exam_student`;
+
+
+4. Contare quanti corsi di laurea ci sono per ogni dipartimento
+ - SELECT COUNT(*) AS corsi_di_laurea, department_id AS dipartimenti
+  - FROM degrees 
+  - GROUP BY dipartimenti ;
